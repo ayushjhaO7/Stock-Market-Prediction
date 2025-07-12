@@ -157,20 +157,6 @@ streamlit run app.py
 
 ---
 
-## 👥 Contributors
-
-| Name         | Role                        |
-| ------------ | --------------------------- |
-| Kishan Kumar | Data Collection, LSTM Model |
-| Member 2     | ARIMA/SARIMA Modeling       |
-| Member 3     | Data Preprocessing          |
-| Member 4     | Prophet Modeling            |
-| Member 5     | Visualization & Dashboard   |
-| Member 6     | Web Deployment              |
-| Member 7     | PPT & Video Presentation    |
-
----
-
 ## 🧑‍💼 Project Review
 
 This project is reviewed and mentored by **Zidio Development**, who guided us through all critical checkpoints and helped ensure a production-ready result.
