@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Stock Market Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-chart-line me-2"></i>StockPredict AI
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/models">Models</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/about">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-5 pt-4">
+        <!-- Header -->
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h1 class="display-4 fw-bold">About the Project</h1>
+                <p class="lead text-muted">Advanced stock market prediction using machine learning</p>
+            </div>
+        </div>
+
+        <!-- Project Overview -->
+        <div class="row mb-5">
+            <div class="col-lg-8">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0"><i class="fas fa-info-circle me-2"></i>Project Overview</h4>
+                    </div>
+                    <div class="card-body">
+                        <p class="lead">
+                            This project demonstrates the application of advanced machine learning techniques 
+                            for stock market prediction using multiple algorithms and comprehensive data analysis.
+                        </p>
+                        <p>
+                            Our system combines traditional statistical methods (ARIMA, SARIMA) with modern 
+                            deep learning approaches (LSTM) and Facebook's Prophet model to provide robust 
+                            and accurate stock price predictions.
+                        </p>
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <h5><i class="fas fa-target me-2"></i>Objectives</h5>
+                                <ul>
+                                    <li>Develop accurate stock price prediction models</li>
+                                    <li>Compare different ML algorithms</li>
+                                    <li>Create an interactive web application</li>
+                                    <li>Provide real-time forecasting capabilities</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h5><i class="fas fa-chart-line me-2"></i>Key Features</h5>
+                                <ul>
+                                    <li>Multiple ML model comparison</li>
+                                    <li>Real-time data visualization</li>
+                                    <li>Technical indicator analysis</li>
+                                    <li>Interactive dashboard</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-success text-white">
+                        <h4 class="mb-0"><i class="fas fa-calendar me-2"></i>Project Timeline</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-marker bg-primary"></div>
+                                <div class="timeline-content">
+                                    <h6>Data Collection</h6>
+                                    <small class="text-muted">June 17-23, 2024</small>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker bg-success"></div>
+                                <div class="timeline-content">
+                                    <h6>Data Preprocessing</h6>
+                                    <small class="text-muted">June 24-30, 2024</small>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker bg-warning"></div>
+                                <div class="timeline-content">
+                                    <h6>Model Development</h6>
+                                    <small class="text-muted">July 1-9, 2024</small>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker bg-info"></div>
+                                <div class="timeline-content">
+                                    <h6>Web Application</h6>
+                                    <small class="text-muted">July 10-14, 2024</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Methodology -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-info text-white">
+                        <h4 class="mb-0"><i class="fas fa-cogs me-2"></i>Methodology</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5><i class="fas fa-database me-2"></i>Data Collection</h5>
+                                <p>
+                                    Historical stock data was collected from Yahoo Finance API, including:
+                                </p>
+                                <ul>
+                                    <li>Daily OHLCV data</li>
+                                    <li>Technical indicators</li>
+                                    <li>Market sentiment data</li>
+                                    <li>Economic indicators</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h5><i class="fas fa-chart-bar me-2"></i>Feature Engineering</h5>
+                                <p>
+                                    Advanced features were created to improve model performance:
+                                </p>
+                                <ul>
+                                    <li>Moving averages (SMA, EMA)</li>
+                                    <li>Technical indicators (RSI, MACD)</li>
+                                    <li>Price momentum features</li>
+                                    <li>Volatility measures</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5><i class="fas fa-brain me-2"></i>Model Training</h5>
+                                <p>
+                                    Multiple algorithms were trained and optimized:
+                                </p>
+                                <ul>
+                                    <li>Hyperparameter tuning</li>
+                                    <li>Cross-validation</li>
+                                    <li>Ensemble methods</li>
+                                    <li>Performance evaluation</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h5><i class="fas fa-desktop me-2"></i>Deployment</h5>
+                                <p>
+                                    Web application with real-time capabilities:
+                                </p>
+                                <ul>
+                                    <li>Flask web framework</li>
+                                    <li>Interactive visualizations</li>
+                                    <li>RESTful API</li>
+                                    <li>Responsive design</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technology Stack -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-warning text-white">
+                        <h4 class="mb-0"><i class="fas fa-laptop-code me-2"></i>Technology Stack</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h5><i class="fab fa-python me-2"></i>Python Libraries</h5>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">TensorFlow & Keras</li>
+                                    <li class="list-group-item">Pandas & NumPy</li>
+                                    <li class="list-group-item">Scikit-learn</li>
+                                    <li class="list-group-item">Prophet</li>
+                                    <li class="list-group-item">Statsmodels</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-4">
+                                <h5><i class="fas fa-globe me-2"></i>Web Technologies</h5>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Flask Framework</li>
+                                    <li class="list-group-item">Bootstrap 5</li>
+                                    <li class="list-group-item">Chart.js</li>
+                                    <li class="list-group-item">JavaScript ES6</li>
+                                    <li class="list-group-item">HTML5 & CSS3</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-4">
+                                <h5><i class="fas fa-tools me-2"></i>Development Tools</h5>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Jupyter Notebooks</li>
+                                    <li class="list-group-item">Git Version Control</li>
+                                    <li class="list-group-item">Virtual Environments</li>
+                                    <li class="list-group-item">Docker (Optional)</li>
+                                    <li class="list-group-item">VS Code</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Information -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-secondary text-white">
+                        <h4 class="mb-0"><i class="fas fa-users me-2"></i>Project Team</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5><i class="fas fa-user-graduate me-2"></i>Student Developer</h5>
+                                <p>
+                                    This project was developed as part of a comprehensive machine learning 
+                                    course focusing on time series analysis and stock market prediction.
+                                </p>
+                                <ul>
+                                    <li>Data Science & Machine Learning</li>
+                                    <li>Time Series Analysis</li>
+                                    <li>Web Development</li>
+                                    <li>Statistical Modeling</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h5><i class="fas fa-university me-2"></i>Mentorship</h5>
+                                <p>
+                                    Project guided by <strong>Zidio Development</strong>, providing expertise in:
+                                </p>
+                                <ul>
+                                    <li>Machine Learning Best Practices</li>
+                                    <li>Model Optimization</li>
+                                    <li>Production Deployment</li>
+                                    <li>Code Quality Standards</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <div class="card shadow-lg border-0">
+                    <div class="card-body">
+                        <h4><i class="fas fa-envelope me-2"></i>Get in Touch</h4>
+                        <p class="lead">
+                            Have questions about this project? Want to contribute or collaborate?
+                        </p>
+                        <div class="d-flex justify-content-center gap-3">
+                            <a href="mailto:contact@stockpredict.ai" class="btn btn-primary">
+                                <i class="fas fa-envelope me-2"></i>Email Us
+                            </a>
+                            <a href="https://github.com/your-username/stock-prediction" class="btn btn-dark">
+                                <i class="fab fa-github me-2"></i>View on GitHub
+                            </a>
+                            <a href="/dashboard" class="btn btn-success">
+                                <i class="fas fa-chart-bar me-2"></i>Try Dashboard
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='about.js') }}"></script>
+</body>
+</html> 

@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Market Visualization</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Particle Background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            animation: float-particle 20s infinite linear;
+        }
+        
+        @keyframes float-particle {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn {
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 20px 0;
+        }
+        
+        .nav-pills .nav-link {
+            border-radius: 25px;
+            margin: 0 5px;
+        }
+        
+        .back-btn {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-weight: 600;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            text-decoration: none;
+            transform: scale(1.05);
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: 25px;
+            z-index: -1;
+        }
+        
+        .hero-title {
+            font-size: 4.2rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            color: #E8E8E8;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+            letter-spacing: 2px;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #D0D0D0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+            letter-spacing: 1px;
+        }
+        
+        .control-panel {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 25px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 30px;
+        }
+        
+        .form-select {
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.95);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 6 7 7 7-7'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 16px 12px;
+            padding-right: 2.5rem;
+        }
+        
+        .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .nav-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .nav-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .chart-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .chart-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+        
+        .chart-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .stats-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            margin: 10px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-item:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: #555;
+            font-weight: 600;
+        }
+        
+        .forecast-table {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .forecast-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            font-weight: 600;
+        }
+        
+        .forecast-table tr {
+            transition: all 0.3s ease;
+        }
+        
+        .forecast-table tr:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: scale(1.01);
+        }
+        
+        .price-change-positive {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .price-change-negative {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        .confidence-high {
+            color: #28a745;
+        }
+        
+        .confidence-medium {
+            color: #ffc107;
+        }
+        
+        .confidence-low {
+            color: #dc3545;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Loading animation */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #667eea;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Enhanced animations */
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .slide-in {
+            animation: slideIn 0.8s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Background -->
+    <div class="particles" id="particles"></div>
+
+    <div class="container mt-5">
+        <!-- Header -->
+        <div class="page-header fade-in">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="hero-title">
+                        <i class="fas fa-chart-line me-3"></i>Stock Market Visualization
+                    </h1>
+                    <p class="hero-subtitle">Interactive stock price visualization and technical analysis</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <a href="/" class="back-btn">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="control-panel slide-in">
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold text-white">Time Period</label>
+                    <select class="form-select" id="timePeriod">
+                        <option value="7">7 Days</option>
+                        <option value="14">14 Days</option>
+                        <option value="30">30 Days</option>
+                        <option value="60">60 Days</option>
+                        <option value="90">90 Days</option>
+                        <option value="100" selected>100 Days</option>
+                        <option value="180">180 Days</option>
+                        <option value="365">1 Year</option>
+                        <option value="730">2 Years</option>
+                        <option value="1095">3 Years</option>
+                        <option value="1825">5 Years</option>
+                    </select>
+                </div>
+                <div class="col-md-8">
+                    <label class="form-label fw-bold text-white">Quick Navigation</label>
+                    <div class="d-flex gap-3">
+                        <a href="/prediction" class="nav-btn flex-fill">
+                            <i class="fas fa-magic me-2"></i>Predictions
+                        </a>
+                        <a href="/models" class="nav-btn flex-fill">
+                            <i class="fas fa-brain me-2"></i>Models
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p class="text-white">Loading data...</p>
+        </div>
+
+        <!-- Charts -->
+        <div class="row">
+            <!-- Stock Price Chart -->
+            <div class="col-12">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Stock Price Chart</h5>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="stockChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Stock Info -->
+        <div class="stats-card">
+            <div class="chart-header">
+                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Stock Information</h5>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <div class="stat-value" id="currentPrice">$0.00</div>
+                        <div class="stat-label">Current Price</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <div class="stat-value" id="highestPrice">$0.00</div>
+                        <div class="stat-label">Highest Price</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <div class="stat-value" id="lowestPrice">$0.00</div>
+                        <div class="stat-label">Lowest Price</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <div class="stat-value" id="volume">0</div>
+                        <div class="stat-label">Volume</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 30-Day Detailed Forecast -->
+        <div class="row">
+            <div class="col-12">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>30-Day Detailed Forecast</h5>
+                            <button class="btn btn-sm btn-light" id="refreshForecastBtn">
+                                <i class="fas fa-sync-alt me-1"></i>Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover forecast-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Predicted Price</th>
+                                        <th>Change</th>
+                                        <th>Confidence</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="forecastTable">
+                                    <tr>
+                                        <td colspan="4" class="text-center text-muted">Loading forecast data...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        let stockChart;
+        let currentDays = 100;
+
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 3 + 1;
+                const left = Math.random() * 100;
+                const animationDuration = Math.random() * 15 + 10;
+                const animationDelay = Math.random() * 15;
+                
+                particle.style.cssText = `
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${left}%;
+                    animation-duration: ${animationDuration}s;
+                    animation-delay: ${animationDelay}s;
+                `;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Initialize charts
+        function initializeCharts() {
+            // Stock Price Chart
+            const stockCtx = document.getElementById('stockChart');
+            stockChart = new Chart(stockCtx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Close Price',
+                        data: [],
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.2)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: {
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: {
+                                color: 'rgba(0,0,0,0.1)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(0,0,0,0.1)'
+                            }
+                        }
+                    }
+                }
+            });
+
+        }
+
+        // Show loading
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+        }
+
+        // Hide loading
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        // Load stock data
+        async function loadStockData(days) {
+            showLoading();
+            try {
+                const response = await fetch(`/api/stock-data/${days}`);
+                const data = await response.json();
+                
+                // Update stock chart
+                stockChart.data.labels = data.dates;
+                stockChart.data.datasets[0].data = data.close;
+                stockChart.update();
+
+                // Update stock info
+                const prices = data.close;
+                document.getElementById('currentPrice').textContent = `$${prices[prices.length - 1].toFixed(2)}`;
+                document.getElementById('highestPrice').textContent = `$${Math.max(...prices).toFixed(2)}`;
+                document.getElementById('lowestPrice').textContent = `$${Math.min(...prices).toFixed(2)}`;
+                document.getElementById('volume').textContent = data.volume[data.volume.length - 1].toLocaleString();
+
+                // Load technical indicators (moving averages only)
+                const indicatorsResponse = await fetch(`/api/technical-indicators/${days}`);
+                const indicatorsData = await indicatorsResponse.json();
+
+                // Load and populate forecast table
+                await loadForecastTable();
+
+            } catch (error) {
+                console.error('Error loading data:', error);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // Load forecast table
+        async function loadForecastTable() {
+            try {
+                console.log('Loading forecast table...');
+                // Use LSTM model for visualization page (default)
+                const response = await fetch('/api/predictions?model=lstm');
+                console.log('Response status:', response.status);
+                console.log('Response ok:', response.ok);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('Forecast data received:', data);
+                
+                // Populate forecast table
+                const forecastTable = document.getElementById('forecastTable');
+                console.log('Forecast table element:', forecastTable);
+                
+                if (!forecastTable) {
+                    console.error('Forecast table element not found');
+                    return;
+                }
+                
+                console.log('Clearing forecast table...');
+                forecastTable.innerHTML = '';
+                
+                if (data.predictions && data.predictions.length > 0) {
+                    console.log('Processing', data.predictions.length, 'predictions');
+                    data.predictions.forEach((prediction, index) => {
+                        console.log('Processing prediction', index, ':', prediction);
+                        const row = document.createElement('tr');
+                        const change = index === 0 ? 0 : prediction.price - data.predictions[index - 1].price;
+                        const changeClass = change >= 0 ? 'price-change-positive' : 'price-change-negative';
+                        const changeSymbol = change >= 0 ? '+' : '';
+                        const confidence = Math.max(85, 95 - index * 0.5);
+                        const confidenceClass = confidence >= 90 ? 'confidence-high' : confidence >= 85 ? 'confidence-medium' : 'confidence-low';
+                        
+                        row.innerHTML = `
+                            <td>${prediction.date}</td>
+                            <td>$${prediction.price}</td>
+                            <td class="${changeClass}">${changeSymbol}$${change.toFixed(2)}</td>
+                            <td class="${confidenceClass}">${confidence.toFixed(1)}%</td>
+                        `;
+                        forecastTable.appendChild(row);
+                    });
+                    console.log('Forecast table populated with', data.predictions.length, 'rows');
+                } else {
+                    console.log('No predictions data available');
+                    forecastTable.innerHTML = '<tr><td colspan="4" class="text-center text-muted">No forecast data available</td></tr>';
+                }
+            } catch (error) {
+                console.error('Error loading forecast table:', error);
+                const forecastTable = document.getElementById('forecastTable');
+                if (forecastTable) {
+                    forecastTable.innerHTML = '<tr><td colspan="4" class="text-center text-danger">Error loading forecast data</td></tr>';
+                }
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            initializeCharts();
+            loadStockData(currentDays);
+
+            // Time period change
+            document.getElementById('timePeriod').addEventListener('change', function() {
+                currentDays = parseInt(this.value);
+                loadStockData(currentDays);
+            });
+            
+            // Load forecast table immediately
+            loadForecastTable();
+            
+            // Refresh forecast button
+            document.getElementById('refreshForecastBtn').addEventListener('click', function() {
+                loadForecastTable();
+            });
+        });
+    </script>
+</body>
+</html> 
