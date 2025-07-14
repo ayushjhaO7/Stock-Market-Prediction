@@ -76,7 +76,7 @@ Stock-Market-Prediction/
 
 ### 1. Clone the Repository
 ```
-git clone <your-repo-url>
+git clone https://github.com/ayushjhaO7/Stock-Market-Prediction.git
 cd Stock-Market-Prediction
 ```
 
