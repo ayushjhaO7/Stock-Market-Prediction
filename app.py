@@ -110,11 +110,14 @@ def get_predictions():
     model_display_name = model_manager.get_model_display_name(model_type)
     current_price = model_manager.get_current_price()
     
+    # Get model accuracy
+    model_accuracy = model_manager.get_model_accuracy(model_type)
     return jsonify({
         'predictions': predictions,
         'current_price': round(current_price, 2),
         'trend': trend,
-        'model': model_display_name
+        'model': model_display_name,
+        'accuracy': model_accuracy
     })
 
 @app.route('/api/models')

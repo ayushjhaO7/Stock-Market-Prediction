@@ -526,14 +526,14 @@
         <div class="nav-panel slide-in">
             <div class="row align-items-center">
                 <div class="col-md-4">
+                    <button class="nav-btn w-100 glow" id="getPredictionBtn">
+                        <i class="fas fa-magic me-2"></i>Prediction
+                    </button>
+                </div>
+                <div class="col-md-4">
                     <a href="/visualization" class="nav-btn w-100">
                         <i class="fas fa-chart-line me-2"></i>Visualization
                     </a>
-                </div>
-                <div class="col-md-4">
-                    <button class="nav-btn w-100 glow" id="getPredictionBtn">
-                        <i class="fas fa-magic me-2"></i>Get Predictions
-                    </button>
                 </div>
                 <div class="col-md-4">
                     <a href="/models" class="nav-btn w-100">
@@ -548,8 +548,8 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-12 text-center mb-3">
-                        <h4 class="mb-2"><i class="fas fa-brain me-2"></i>Choose Your AI Model</h4>
-                        <p class="text-muted">Select the machine learning model that best suits your prediction needs</p>
+                        <h4 class="mb-2 text-white"><i class="fas fa-brain me-2"></i>Choose Your AI Model</h4>
+                        <p class="text-white">Select the machine learning model that best suits your prediction needs</p>
                     </div>
                     <div class="col-12">
                         <div class="row justify-content-center">
@@ -588,9 +588,9 @@
         </div>
 
         <!-- Prediction Results -->
-        <div class="row" id="predictionResults" style="display: none;">
+        <div class="row flex-nowrap" id="predictionResults" style="display: flex; flex-wrap: nowrap;">
             <!-- Current Status -->
-            <div class="col-lg-6 col-md-6 mb-4">
+            <div class="col-6 mb-4">
                 <div class="card prediction-card bounce-in">
                     <div class="card-body text-center">
                         <div class="prediction-header">
@@ -611,14 +611,22 @@
             </div>
 
             <!-- Model Accuracy -->
-            <div class="col-lg-6 col-md-6 mb-4">
+            <div class="col-6 mb-4">
                 <div class="card prediction-card bounce-in">
                     <div class="card-body text-center">
                         <div class="prediction-header">
                             <h5 class="mb-0"><i class="fas fa-bullseye me-2"></i>Model Accuracy</h5>
                         </div>
-                        <h2 class="mt-3 floating">94.2%</h2>
-                        <p class="mb-0" id="modelType">LSTM Model</p>
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <h5>Accuracy</h5>
+                                <h3 id="modelAccuracy" class="floating">--%</h3>
+                            </div>
+                            <div class="col-6">
+                                <h5>Model</h5>
+                                <h3 id="modelType">LSTM Model</h3>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -842,6 +850,12 @@
                 if (data.model) {
                     document.getElementById('modelType').textContent = data.model;
                 }
+                // Update model accuracy
+                if (data.accuracy !== undefined && data.accuracy !== null) {
+                    document.getElementById('modelAccuracy').textContent = data.accuracy + '%';
+                } else {
+                    document.getElementById('modelAccuracy').textContent = '--%';
+                }
                 
                 // Calculate predictions for different periods using model predictions
                 const predictions = data.predictions || [];
@@ -887,7 +901,7 @@
                 
                 // Show results with staggered animation
                 setTimeout(() => {
-                    document.getElementById('predictionResults').style.display = 'block';
+                    document.getElementById('predictionResults').style.display = 'flex';
                 }, 500);
                 
                 setTimeout(() => {
