@@ -119,12 +119,6 @@ If you do not have these files, you will need to train the models or request the
 ```
 python app.py
 ```
-The app will be available at [http://localhost:5000](http://localhost:5000)
-
-Or use the provided batch file:
-```
-start_app.bat
-```
 
 ---
 
