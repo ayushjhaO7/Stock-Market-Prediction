@@ -10,9 +10,17 @@ import os
 import pickle
 import warnings
 warnings.filterwarnings('ignore')
+ 
+# Define project root and important directories
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+DATA_DIR = os.path.join(BASE_DIR, 'data')
+RAW_DATA_DIR = os.path.join(DATA_DIR, 'raw')
+PROCESSED_DIR = os.path.join(DATA_DIR, 'processed')
+SCALERS_DIR = os.path.join(PROCESSED_DIR, 'scalers')
+MODELS_DIR = os.path.join(BASE_DIR, 'models')
 
 class ModelManager:
-    def __init__(self, data_path='apple_data.csv'):
+    def __init__(self, data_path=os.path.join(RAW_DATA_DIR, 'apple_data.csv')):
         """Initialize the model manager with all project models"""
         self.data_path = data_path
         self.df = None
@@ -29,28 +37,29 @@ class ModelManager:
             self.df = pd.read_csv(self.data_path, parse_dates=['Date'])
             self.df['Date'] = pd.to_datetime(self.df['Date'])
             self.df = self.df.set_index('Date').sort_index()
-            print(f"✅ Loaded dataset with {len(self.df)} rows")
+            print(f"Loaded dataset with {len(self.df)} rows")
         except Exception as e:
-            print(f"❌ Error loading data: {e}")
+            print(f"Error loading data: {e}")
             self.df = pd.DataFrame()
     
     def load_model_info(self):
         """Load model information"""
         try:
-            if os.path.exists('model_info.pkl'):
-                with open('model_info.pkl', 'rb') as f:
+            model_info_path = os.path.join(MODELS_DIR, 'model_info.pkl')
+            if os.path.exists(model_info_path):
+                with open(model_info_path, 'rb') as f:
                     self.model_info = pickle.load(f)
-                print("✅ Model information loaded")
+                print("Model information loaded")
             else:
-                print("⚠️ Model info file not found, using defaults")
+                print("Model info file not found, using defaults")
                 self.model_info = {}
         except Exception as e:
-            print(f"❌ Error loading model info: {e}")
+            print(f"Error loading model info: {e}")
             self.model_info = {}
     
     def initialize_models(self):
         """Initialize all project models"""
-        print("🤖 Initializing Project Models...")
+        print("Initializing Project Models...")
         
         # Initialize LSTM Model
         self.initialize_lstm_model()
@@ -64,7 +73,7 @@ class ModelManager:
         # Initialize Prophet Model
         self.initialize_prophet_model()
         
-        print(f"✅ Initialized {len(self.models)} models")
+        print(f"Initialized {len(self.models)} models")
     
     def initialize_lstm_model(self):
         """Initialize LSTM model from saved file"""
@@ -73,13 +82,15 @@ class ModelManager:
             from sklearn.preprocessing import MinMaxScaler
             
             # Load the trained LSTM model
-            if os.path.exists('lstm_model.h5'):
-                self.models['lstm'] = load_model('lstm_model.h5')
-                print("✅ LSTM model loaded successfully")
+            lstm_model_path = os.path.join(MODELS_DIR, 'lstm_model.h5')
+            if os.path.exists(lstm_model_path):
+                self.models['lstm'] = load_model(lstm_model_path, compile=False)
+                print("LSTM model loaded successfully")
                 
                 # Load scaler if available
-                if os.path.exists('lstm_scaler.pkl'):
-                    with open('lstm_scaler.pkl', 'rb') as f:
+                lstm_scaler_path = os.path.join(SCALERS_DIR, 'lstm_scaler.pkl')
+                if os.path.exists(lstm_scaler_path):
+                    with open(lstm_scaler_path, 'rb') as f:
                         self.scalers['lstm'] = pickle.load(f)
                 else:
                     # Create new scaler if not available
@@ -92,49 +103,52 @@ class ModelManager:
                 self.models['lstm_recent_data'] = data_scaled[-60:]  # 60-day lookback
                 
             else:
-                print("⚠️ LSTM model file not found")
+                print("LSTM model file not found")
                 
         except Exception as e:
-            print(f"❌ Error initializing LSTM model: {e}")
+            print(f"Error initializing LSTM model: {e}")
     
     def initialize_arima_model(self):
         """Initialize ARIMA model from saved file"""
         try:
-            if os.path.exists('arima_model.pkl'):
-                with open('arima_model.pkl', 'rb') as f:
+            arima_path = os.path.join(MODELS_DIR, 'arima_model.pkl')
+            if os.path.exists(arima_path):
+                with open(arima_path, 'rb') as f:
                     self.models['arima'] = pickle.load(f)
-                print("✅ ARIMA model loaded successfully")
+                print("ARIMA model loaded successfully")
             else:
-                print("⚠️ ARIMA model file not found")
+                print("ARIMA model file not found")
                 
         except Exception as e:
-            print(f"❌ Error initializing ARIMA model: {e}")
+            print(f"Error initializing ARIMA model: {e}")
     
     def initialize_sarima_model(self):
         """Initialize SARIMA model from saved file"""
         try:
-            if os.path.exists('sarima_model.pkl'):
-                with open('sarima_model.pkl', 'rb') as f:
+            sarima_path = os.path.join(MODELS_DIR, 'sarima_model.pkl')
+            if os.path.exists(sarima_path):
+                with open(sarima_path, 'rb') as f:
                     self.models['sarima'] = pickle.load(f)
-                print("✅ SARIMA model loaded successfully")
+                print("SARIMA model loaded successfully")
             else:
-                print("⚠️ SARIMA model file not found")
+                print("SARIMA model file not found")
                 
         except Exception as e:
-            print(f"❌ Error initializing SARIMA model: {e}")
+            print(f"Error initializing SARIMA model: {e}")
     
     def initialize_prophet_model(self):
         """Initialize Prophet model from saved file"""
         try:
-            if os.path.exists('prophet_model.pkl'):
-                with open('prophet_model.pkl', 'rb') as f:
+            prophet_path = os.path.join(MODELS_DIR, 'prophet_model.pkl')
+            if os.path.exists(prophet_path):
+                with open(prophet_path, 'rb') as f:
                     self.models['prophet'] = pickle.load(f)
-                print("✅ Prophet model loaded successfully")
+                print("Prophet model loaded successfully")
             else:
-                print("⚠️ Prophet model file not found")
+                print("Prophet model file not found")
                 
         except Exception as e:
-            print(f"❌ Error initializing Prophet model: {e}")
+            print(f"Error initializing Prophet model: {e}")
     
     def predict_lstm(self, days=30):
         """Make LSTM predictions"""
@@ -174,7 +188,7 @@ class ModelManager:
             return predictions
             
         except Exception as e:
-            print(f"❌ Error in LSTM prediction: {e}")
+            print(f"Error in LSTM prediction: {e}")
             return None
     
     def predict_arima(self, days=30):
@@ -202,7 +216,7 @@ class ModelManager:
             return predictions
             
         except Exception as e:
-            print(f"❌ Error in ARIMA prediction: {e}")
+            print(f"Error in ARIMA prediction: {e}")
             return None
     
     def predict_sarima(self, days=30):
@@ -230,7 +244,7 @@ class ModelManager:
             return predictions
             
         except Exception as e:
-            print(f"❌ Error in SARIMA prediction: {e}")
+            print(f"Error in SARIMA prediction: {e}")
             return None
     
     def predict_prophet(self, days=30):
@@ -262,7 +276,7 @@ class ModelManager:
             return predictions
             
         except Exception as e:
-            print(f"❌ Error in Prophet prediction: {e}")
+            print(f"Error in Prophet prediction: {e}")
             return None
     
     def get_predictions(self, model_type, days=30):

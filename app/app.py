@@ -9,22 +9,22 @@ import sys
 def check_environment():
     """Check if running in stockenv environment"""
     if not hasattr(sys, 'real_prefix') and not (hasattr(sys, 'base_prefix') and sys.base_prefix != sys.prefix):
-        print("⚠️ WARNING: Not running in virtual environment!")
+        print("WARNING: Not running in virtual environment!")
         print("For best results, please activate stockenv:")
         print("  Windows: stockenv\\Scripts\\activate")
         print("  Unix: source stockenv/bin/activate")
     elif 'stockenv' not in sys.prefix:
-        print(f"⚠️ WARNING: Running in {os.path.basename(sys.prefix)}, but stockenv is recommended")
+        print(f"WARNING: Running in {os.path.basename(sys.prefix)}, but stockenv is recommended")
 
 # Check environment before importing model_manager
 check_environment()
 
-from model_manager import initialize_model_manager
+from .models.model_manager import initialize_model_manager
 
 app = Flask(__name__)
 
 # Initialize the model manager
-print("🚀 Initializing Model Manager...")
+print("Initializing Model Manager...")
 model_manager = initialize_model_manager()
 df = model_manager.df if model_manager else pd.DataFrame()
 
