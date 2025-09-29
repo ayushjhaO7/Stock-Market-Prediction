@@ -17,6 +17,9 @@ This repository provides a Flask-based web application for stock market forecast
 - statsmodels 0.14.x, prophet 1.1.5
 - Plotly / Matplotlib / Seaborn (visualization)
 
+## Demo
+![Demo](docs/ScreenRecording2025-09-29105633.mp4)
+
 ## Project Structure
 ```text
 Stock-Market-Prediction/
