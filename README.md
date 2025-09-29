@@ -18,7 +18,7 @@ This repository provides a Flask-based web application for stock market forecast
 - Plotly / Matplotlib / Seaborn (visualization)
 
 ## Demo
-![Demo](docs/vid)
+![Demo](docs/demo.gif)
 
 ## Project Structure
 ```text
