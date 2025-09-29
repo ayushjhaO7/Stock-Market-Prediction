@@ -3,20 +3,22 @@
 ## Overview
 This repository provides a Flask-based web application for stock market forecasting and visualization. It serves predictions from multiple time-series models using a historical OHLCV dataset and exposes simple JSON APIs for programmatic access.
 
+## Features
 - LSTM (TensorFlow), ARIMA, SARIMA, and Prophet models
 - Interactive pages: Home, Visualization, Prediction, Models
 - Technical indicators (e.g., MA20, MA50)
 - JSON APIs for stock data and future predictions
 
-  ## Tech Stack
-  - Python 3.10
-  - Flask 3.x
-  - NumPy 1.26.x, Pandas 2.3.x, scikit-learn 1.7.x
-  - TensorFlow 2.19 (via tf.keras)
-  - statsmodels 0.14.x, prophet 1.1.5
-  - Plotly / Matplotlib / Seaborn (visualization)
+## Tech Stack
+- Python 3.10
+- Flask 3.x
+- NumPy 1.26.x, Pandas 2.3.x, scikit-learn 1.7.x
+- TensorFlow 2.19 (via tf.keras)
+- statsmodels 0.14.x, prophet 1.1.5
+- Plotly / Matplotlib / Seaborn (visualization)
 
 ## Project Structure
+```text
 Stock-Market-Prediction/
 ├── run.py                      # App entry point
 ├── app/                        # Flask web application
@@ -52,23 +54,25 @@ Stock-Market-Prediction/
 ├── requirements.txt
 ├── README.md
 └── venv/                       # Local virtual env (don’t commit)
+```
 
-  ## Setup
-  1) Create and activate a virtual environment (Windows):
-  ```
-  python -m venv venv
-  venv\Scripts\activate
-  ```
-  2) Install dependencies:
-  ```
-  pip install --upgrade pip
-  pip install -r requirements.txt
-  ```
+## Setup
+1) Create and activate a virtual environment (Windows):
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+2) Install dependencies:
+```bash
+pip install --upgrade pip
+pip install -r requirements.txt
+```
 Notes
 - Prophet 1.1.5 is compatible with NumPy 1.26.x. If you encounter NumPy 2.x errors (np.float_ removed), install: `pip install "numpy==1.26.4"`.
 - The app expects data at `data/raw/apple_data.csv` with columns: Date, Open, High, Low, Close, Volume.
 
 ## Running
+```bash
 python run.py
 ```
 Then open http://127.0.0.1:5000 in your browser.
