@@ -111,12 +111,8 @@ Retraining (optional): use `train_all_models.py` to fit and re-save all models o
 
 ## Housekeeping
 - Notebooks in the repo are for research; they are not used at runtime.
-- Duplicates may exist between root and `notebooks/`; prefer keeping `notebooks/` only.
-- Files like `TSLA.csv`, `start_app.sh`, `app/routes.py`, `config.py` are optional/unused unless you explicitly wire them.
 
-## License
-Add a license of your choice (e.g., MIT, Apache-2.0) in `LICENSE`.
-
+  
 ## Acknowledgements
 - Data sources: Yahoo Finance (via `yfinance`) and other public datasets
 - Libraries: Prophet (Meta), TensorFlow/Keras, statsmodels, scikit-learn, Pandas
